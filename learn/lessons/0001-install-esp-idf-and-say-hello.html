@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0001 Install ESP-IDF and say hello</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Lesson 0001 · Stage 0: Toolchain</div>
+  <h1>Install ESP-IDF and say hello</h1>
+  <p class="meta">About 30 minutes, most of it downloads. Hardware: one DFR1154 and a USB-C data cable.</p>
+</header>
+
+<p class="win"><strong>The win:</strong> your own board prints <code>Hello world!</code> to your terminal, using firmware you built and flashed yourself.</p>
+
+<p>You write no code today. The skill is the loop you will run hundreds of times in this project: <em>build, flash, monitor</em>. In web terms: compile, deploy to a device with no operating system, then tail its logs over a cable.</p>
+
+<h2>What you are installing</h2>
+<p>ESP-IDF is Espressif's own framework for its chips. It is three things: a C library for the hardware, a cross-compiler that runs on your Mac but produces code for the ESP32-S3, and <code>idf.py</code>, a command that drives building and flashing (<a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/">ESP-IDF Get Started</a>). Since v6.0 the supported way to install all three is the Espressif Installation Manager, EIM (<a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/macos-setup.html">macOS setup</a>).</p>
+
+<h2>Steps</h2>
+<ol class="steps">
+  <li>
+    <strong>Install the prerequisites and EIM</strong> with Homebrew.
+<pre><code>brew install libgcrypt glib pixman sdl2 libslirp dfu-util cmake python
+brew tap espressif/eim
+brew install eim</code></pre>
+  </li>
+  <li>
+    <strong>Install ESP-IDF.</strong> This fetches the latest stable release and its toolchain.
+<pre><code>eim install</code></pre>
+    Wait for <code>Successfully installed IDF</code>. EIM then prints an <em>activation command</em> that starts with <code>source</code>. Copy it somewhere: you need it in every new terminal.
+  </li>
+  <li>
+    <strong>Activate the environment</strong> by running the command EIM printed. It looks like this, with your own path and version:
+<pre><code>source "/Users/you/.espressif/tools/activate_idf_v6.1.sh"</code></pre>
+    Check it worked:
+<pre><code>idf.py --version</code></pre>
+  </li>
+  <li>
+    <strong>Copy Espressif's example into this repo.</strong> Run this from the repo root. ESP-IDF cannot handle spaces in paths, so check the repo's own path has none.
+<pre><code>cp -r $IDF_PATH/examples/get-started/hello_world firmware/01-hello
+cd firmware/01-hello</code></pre>
+  </li>
+  <li>
+    <strong>Tell the build which chip you have.</strong>
+<pre><code>idf.py set-target esp32s3</code></pre>
+  </li>
+  <li>
+    <strong>Plug in the board and find its port.</strong> On macOS the port name starts with <code>/dev/cu.</code>
+<pre><code>ls /dev/cu.*</code></pre>
+    Run it once unplugged and once plugged in. The name that appears is your board.
+  </li>
+  <li>
+    <strong>Build, flash and monitor</strong> in one go. Replace <code>PORT</code> with the name from the previous step.
+<pre><code>idf.py -p PORT flash monitor</code></pre>
+    The first build takes a few minutes. Then you should see <code>Hello world!</code>, some facts about the chip, and a countdown to a restart. Leave the monitor with <kbd>Ctrl</kbd>+<kbd>]</kbd>.
+  </li>
+</ol>
+
+<div class="note">
+  <strong>If it does not go to plan,</strong> stop and tell me exactly what you see. Two things I could not test without the board:
+  <ul>
+    <li><em>Flashing cannot connect.</em> Hold <strong>BOOT</strong>, tap <strong>RST</strong>, release BOOT, then run the flash command again. That forces the chip into download mode.</li>
+    <li><em>Flashing works but the monitor stays silent.</em> Say so. It means this board needs its log output pointed at the USB port, which is a one-line setting and a good first look at <code>menuconfig</code>.</li>
+  </ul>
+</div>
+
+<h2>What just happened</h2>
+<table>
+  <tr><th>Command</th><th>What it did</th><th>Web equivalent</th></tr>
+  <tr><td><code>source …activate…</code></td><td>Put <code>idf.py</code> and the compiler on your PATH for this terminal only</td><td><code>nvm use</code></td></tr>
+  <tr><td><code>set-target</code></td><td>Chose the chip, and wiped any earlier build and configuration</td><td>Picking a build target</td></tr>
+  <tr><td><code>flash</code></td><td>Built the project, then wrote it to the chip's flash memory over USB</td><td>Build and deploy</td></tr>
+  <tr><td><code>monitor</code></td><td>Showed what the chip prints over its serial port</td><td>Tailing logs</td></tr>
+</table>
+<p>Source for all four: <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/linux-macos-start-project.html">Start a Project on Linux and macOS</a>.</p>
+
+<h2>Read this</h2>
+<p>The primary source for today is Espressif's own <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/linux-macos-start-project.html">Start a Project on Linux and macOS from Command Line</a>. It is short. Read it after you have the board talking, and note anything it does that you did not.</p>
+
+<h2>From memory</h2>
+<p>Close the terminal and answer without scrolling up. One attempt each.</p>
+
+<div class="quiz" data-answer="0" data-why="It also clears any previous build and configuration in the project.">
+  <p class="q">1. What does <code>idf.py set-target esp32s3</code> do?</p>
+  <button>Selects which chip the build targets</button>
+  <button>Uploads the firmware over the cable</button>
+  <button>Opens the serial monitor for output</button>
+</div>
+
+<div class="quiz" data-answer="1" data-why="Ctrl+] leaves the monitor. Ctrl+T opens its menu.">
+  <p class="q">2. Which keys exit the serial monitor?</p>
+  <button>Ctrl and C</button>
+  <button>Ctrl and ]</button>
+  <button>Ctrl and Q</button>
+</div>
+
+<div class="quiz" data-answer="2" data-why="List them with ls /dev/cu.* before and after plugging in.">
+  <p class="q">3. Which prefix do the board's serial ports have on macOS?</p>
+  <button>/dev/usb.</button>
+  <button>/dev/com.</button>
+  <button>/dev/cu.</button>
+</div>
+
+<div class="quiz" data-answer="1" data-why="The activation script only changes the terminal it runs in.">
+  <p class="q">4. Why run the activation command in every new terminal?</p>
+  <button>It downloads the newest ESP-IDF release</button>
+  <button>It puts idf.py on your PATH</button>
+  <button>It resets the board before flashing</button>
+</div>
+
+<p class="quiz-score" data-quiz-score></p>
+
+<h2>Report back</h2>
+<p>When you are done, tell me three things: the port name you found, whether you needed the BOOT button, and the chip details the board printed under <code>Hello world!</code>. Those decide how lesson 0002 starts.</p>
+<p>Ask me anything that was unclear, however small. I am your teacher for this, and a question now is cheaper than a wrong mental model later.</p>
+
+<footer>
+  Next: 0002 Anatomy of an ESP-IDF project (written after you finish this one) ·
+  <a href="../ROADMAP.md">Roadmap</a> · <a href="../RESOURCES.md">Resources</a>
+</footer>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# ESP-IDF build output
+build/
+sdkconfig.old
+managed_components/
+
+# Secrets and local config
+.env
+*.local
+secrets.h
+sdkconfig.secrets
+
+# Node
+node_modules/
+
+# OS / editor
+.DS_Store
+.vscode/

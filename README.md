@@ -1,8 +1,8 @@
-# esp-home-assistant
+# esp-in-a-flash
 
-A DIY smart home assistant and family intercom: ESP32 room terminals (mic, speaker, camera) talking to a hub that does the thinking.
+A course: Francois is learning ESP-IDF one small lesson at a time, so the code here is written by him, not generated in bulk.
 
-This repo is also a course. Francois is learning ESP-IDF by building it, one small lesson at a time, so the code here is written by him, not generated in bulk.
+The project the lessons build towards, a DIY smart home assistant and family intercom, lives in [fing](https://github.com/Nightwolf001/fing).
 
 ## Layout
 
@@ -10,7 +10,6 @@ This repo is also a course. Francois is learning ESP-IDF by building it, one sma
 |---|---|
 | `learn/` | The teaching workspace: mission, roadmap, lessons, reference sheets, learning records |
 | `firmware/` | One ESP-IDF project per lesson stage, created during the lessons |
-| `hub/` | The Node service the terminals talk to (starts at stage 5 of the roadmap) |
 
 ## Start here
 

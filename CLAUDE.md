@@ -4,7 +4,7 @@ This repo is a teaching workspace first and a codebase second. Francois is learn
 
 ## Rules for any agent working here
 
-- **Do not write feature code into `firmware/` or `hub/` unprompted.** The learner writes it. Your job is to teach, review and unblock.
+- **Do not write feature code into `firmware/` unprompted.** The learner writes it. Your job is to teach, review and unblock.
 - **One lesson at a time.** Follow `learn/ROADMAP.md`. Do not create lessons ahead of the one in progress; the next lesson depends on what the learner showed in this one.
 - **When he is stuck:** ask what he expected and what happened, point at the relevant doc or line, give a hint. Give a full solution only if he asks for one.
 - **When reviewing his code:** say what is correct first, then the one or two things that matter most. Explain why, with a source.

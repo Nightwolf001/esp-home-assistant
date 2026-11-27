@@ -2,7 +2,7 @@
 
 A course: Francois is learning ESP-IDF one small lesson at a time, so the code here is written by him, not generated in bulk.
 
-The project the lessons build towards, a DIY smart home assistant and family intercom, lives in [fing](https://github.com/Nightwolf001/fing).
+The project the lessons build towards, a DIY smart home assistant and family intercom, lives in [esp-home-hub](https://github.com/Nightwolf001/esp-home-hub).
 
 ## Layout
 
